@@ -1,12 +1,38 @@
 # Changelog
 
-All notable changes to this project will be documented in this file (created with [git cliff](https://git-cliff.org/).
+All notable changes to this project will be documented in this file (created with [git cliff](https://git-cliff.org/)).
 
 The docker images can be found at [Docker Hub](https://hub.docker.com/r/katom92/pod-rotator-operator/tags).
 
-## [0.0.2]
+## [0.0.3-rc2] - 2025-02-02
 
-[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/f00c7c7cbda7438e7177a405f2f5ad0a46056e51..)
+[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/47d4ecb792e18b1b89face85fb9ee034fd64c827..0939acdcf201ec2871c677dfe27db6856f8b8dc1)
+### ⚙️ Miscellaneous Tasks
+
+
+- Bump dependencies ([ad43045](https://github.com/amasotti/pod-rotator-operator/commit/ad430453bfc26e89a24ff4793354c0364d50d0a5))
+
+- Add pull step to pipeline ([0939acd](https://github.com/amasotti/pod-rotator-operator/commit/0939acdcf201ec2871c677dfe27db6856f8b8dc1))
+
+## [0.0.3-rc1] - 2025-02-02
+
+[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/08f91f606af51ebd3308b9e8743e7795ec813ca8..47d4ecb792e18b1b89face85fb9ee034fd64c827)
+### 🐛 Bug Fixes
+
+
+- Masking of username in release pipeline ([47d4ecb](https://github.com/amasotti/pod-rotator-operator/commit/47d4ecb792e18b1b89face85fb9ee034fd64c827))
+
+## [0.0.3] - 2025-02-02
+
+[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/0795d1aabfdc422c6535bf35f2191977cb15ad55..08f91f606af51ebd3308b9e8743e7795ec813ca8)
+### 🐛 Bug Fixes
+
+
+- Masking of username in release pipeline ([08f91f6](https://github.com/amasotti/pod-rotator-operator/commit/08f91f606af51ebd3308b9e8743e7795ec813ca8))
+
+## [0.0.2] - 2025-02-02
+
+[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/f00c7c7cbda7438e7177a405f2f5ad0a46056e51..0795d1aabfdc422c6535bf35f2191977cb15ad55)
 ### 🐛 Bug Fixes
 
 
@@ -14,12 +40,16 @@ The docker images can be found at [Docker Hub](https://hub.docker.com/r/katom92/
 
 - *(ci)* Simplify pipeline (free runner on github are not enough) ([ebcf6f1](https://github.com/amasotti/pod-rotator-operator/commit/ebcf6f12a8ca582373feeb68d9bce0fdebd19410))
 
+- Parameter cache go ([0795d1a](https://github.com/amasotti/pod-rotator-operator/commit/0795d1aabfdc422c6535bf35f2191977cb15ad55))
+
 ### ⚙️ Miscellaneous Tasks
 
 
 - *(legal)* Make licensing consistent ([4cf9c23](https://github.com/amasotti/pod-rotator-operator/commit/4cf9c23b6b091b7665be91300cce4d1833e90ec9))
 
 - Refine pipelines ([9281e72](https://github.com/amasotti/pod-rotator-operator/commit/9281e72c7f3b2a22f6aa5dc37cfecabb27878d03))
+
+- Avoid duplicate ci running ([ddc3edf](https://github.com/amasotti/pod-rotator-operator/commit/ddc3edf6044ad6552f3edb8374b3b9ebe0516738))
 
 ## [0.0.1] - 2025-02-02
 

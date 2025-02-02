@@ -1,4 +1,4 @@
-export IMG=katom92/pod-rotator:v0.0.3
+export IMG=katom92/pod-rotator:v0.0.4
 
 # Generate the complete manifest
 make manifests
