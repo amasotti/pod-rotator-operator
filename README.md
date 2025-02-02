@@ -33,3 +33,15 @@ _tbd_
 - [Operator SDK](https://sdk.operatorframework.io/docs/installation/)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Golang](https://go.dev/)
+
+### Steps
+
+see [STEPS.md](docs/STEPS.md)
+
+## Docker Images
+
+- [katom92/pod-rotator-operator:](https://hub.docker.com/r/katom92/pod-rotator-operator/tags)
+
+## License
+
+[Mozilla Public License 2.0](LICENSE)
