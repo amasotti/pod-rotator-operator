@@ -1,0 +1,98 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.prep.outputs.image_tag }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare variables
+        id: prep
+        run: |
+          echo "image_tag=katom92/pod-rotator-operator:${{ github.ref_name }}" >> $GITHUB_OUTPUT
+
+      - name: Docker Login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23
+          cache: 'go-build'
+
+      - name: Build and push Docker image
+        run: |
+          make docker-buildx IMG=${{ steps.prep.outputs.image_tag }}
+
+      - name: Save Docker image
+        run: |
+          docker save ${{ steps.prep.outputs.image_tag }} > image.tar
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: image.tar
+          retention-days: 2
+          overwrite: true
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: 'true'
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Download Docker image
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: .
+
+      - name: Generate release.yaml
+        run: |
+          make manifests
+          cd config/manager && kustomize edit set image controller=${{ needs.build.outputs.image_tag }} && cd ../..
+          kustomize build config/default > release/release.yaml
+
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: ./cliff.toml
+          args: --verbose --latest
+        env:
+          OUTPUT: CHANGES.md
+          GITHUB_REPO: ${{ github.repository }}
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          tag: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          bodyFile: CHANGES.md
+          artifacts: "image.tar,release/release.yaml"
+          token: ${{ github.token }}

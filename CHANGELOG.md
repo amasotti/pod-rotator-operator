@@ -1,14 +1,38 @@
 # Changelog
 
-All notable changes to this project will be documented in this file (created with git cliff).
+All notable changes to this project will be documented in this file (created with [git cliff](https://git-cliff.org/).
 
-## [unreleased]
+The docker images can be found at [Docker Hub](https://hub.docker.com/r/katom92/pod-rotator-operator/tags).
 
-[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/73b2f627f0c851f41437e41e70e1937fbe9de770..)
+## [0.0.2]
+
+[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/f00c7c7cbda7438e7177a405f2f5ad0a46056e51..)
+### 🐛 Bug Fixes
+
+
+- *(ci)* Set go version to 1.23 ([6bf43fd](https://github.com/amasotti/pod-rotator-operator/commit/6bf43fdbbc1e98dc5a925a57098fbafaa9f173ce))
+
+- *(ci)* Simplify pipeline (free runner on github are not enough) ([ebcf6f1](https://github.com/amasotti/pod-rotator-operator/commit/ebcf6f12a8ca582373feeb68d9bce0fdebd19410))
+
+### ⚙️ Miscellaneous Tasks
+
+
+- *(legal)* Make licensing consistent ([4cf9c23](https://github.com/amasotti/pod-rotator-operator/commit/4cf9c23b6b091b7665be91300cce4d1833e90ec9))
+
+## [0.0.1] - 2025-02-02
+
+[Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/73b2f627f0c851f41437e41e70e1937fbe9de770..f00c7c7cbda7438e7177a405f2f5ad0a46056e51)
 ### 🚀 Features
 
 
 - Add example helm chart ([4fb95e1](https://github.com/amasotti/pod-rotator-operator/commit/4fb95e1e052af3e58e7926ae140a0d797ea7e14f))
+
+### ⚙️ Miscellaneous Tasks
+
+
+- Run go linter ([b7372a5](https://github.com/amasotti/pod-rotator-operator/commit/b7372a559a171e4f6c1ccbd73c430e042ad1776f))
+
+- *(ci)* Draft ci ([f00c7c7](https://github.com/amasotti/pod-rotator-operator/commit/f00c7c7cbda7438e7177a405f2f5ad0a46056e51))
 
 ## [0.0.1-alpha-rc2] - 2025-02-02
 
