@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: latest
+
+service:
+  name: nginx-app
+  type: NodePort
+  port: 80
+
+deployment:
+  name: nginx-app
+
+rotator:
+  schedule: "*/1 * * * *"
+  deployment: nginx-app

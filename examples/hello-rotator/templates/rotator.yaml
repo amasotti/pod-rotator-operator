@@ -1,0 +1,8 @@
+apiVersion: apps.tonihacks.com/v1alpha1
+kind: CustomPodRotator
+metadata:
+  name: nginx-rotator
+  namespace: default
+spec:
+  targetDeployment: {{ .Values.rotator.deployment }}
+  schedule: "{{ .Values.rotator.schedule }}"

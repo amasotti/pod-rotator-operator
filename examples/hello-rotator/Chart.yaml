@@ -1,0 +1,6 @@
+apiVersion: v2
+name: hello-rotator
+description: A demo for the CustomPodRotator
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: katom92/pod-rotator-operator
-  newTag: v0.0.1-alpha-rc1
+  newTag: v0.0.1-alpha-rc2
