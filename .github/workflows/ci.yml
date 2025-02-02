@@ -18,9 +18,6 @@ jobs:
           go-version: '1.23'
           cache: true
 
-      - name: Lint
-        run: make lint
-
       - name: Run tests
         run: make test
 

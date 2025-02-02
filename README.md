@@ -1,5 +1,7 @@
 # Pod Rotator Operator 
 
+[![CI](https://github.com/amasotti/pod-rotator-operator/actions/workflows/ci.yml/badge.svg)](https://github.com/amasotti/pod-rotator-operator/actions/workflows/ci.yml)
+
 This repo contains a custom Kubernetes operator using the Operator SDK. 
 The operator rotates pods in a deployment by deleting the oldest pod and creating a new one on a schedule. It also 
 provides a custom resource definition (CRD) to configure the rotation schedule and takes care of edge cases, like deployment not found.
