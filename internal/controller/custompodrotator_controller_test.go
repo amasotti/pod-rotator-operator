@@ -1,84 +1,99 @@
-/*
-Copyright 2025.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package controller
 
 import (
 	"context"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"time"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/types"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 
 	appsv1alpha1 "github.com/amasotti/pod-rotator-operator/api/v1alpha1"
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
 )
 
 var _ = Describe("CustomPodRotator Controller", func() {
-	Context("When reconciling a resource", func() {
-		const resourceName = "test-resource"
+	Context("When scheduling a restart", func() {
+		It("Should update deployment annotations", func() {
+			ctx := context.Background()
 
-		ctx := context.Background()
-
-		typeNamespacedName := types.NamespacedName{
-			Name:      resourceName,
-			Namespace: "default", // TODO(user):Modify as needed
-		}
-		custompodrotator := &appsv1alpha1.CustomPodRotator{}
-
-		BeforeEach(func() {
-			By("creating the custom resource for the Kind CustomPodRotator")
-			err := k8sClient.Get(ctx, typeNamespacedName, custompodrotator)
-			if err != nil && errors.IsNotFound(err) {
-				resource := &appsv1alpha1.CustomPodRotator{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      resourceName,
-						Namespace: "default",
+			// Create deployment first
+			deployment := &appsv1.Deployment{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "test-deploy",
+					Namespace: "default",
+				},
+				Spec: appsv1.DeploymentSpec{
+					Selector: &metav1.LabelSelector{
+						MatchLabels: map[string]string{
+							"app": "test-deploy",
+						},
 					},
-					// TODO(user): Specify other spec details if needed.
-				}
-				Expect(k8sClient.Create(ctx, resource)).To(Succeed())
+					Template: corev1.PodTemplateSpec{
+						ObjectMeta: metav1.ObjectMeta{
+							Labels: map[string]string{
+								"app": "test-deploy",
+							},
+						},
+						Spec: corev1.PodSpec{
+							Containers: []corev1.Container{{
+								Name:  "nginx",
+								Image: "nginx:1.25",
+							}},
+						},
+					},
+				},
 			}
-		})
+			Expect(k8sClient.Create(ctx, deployment)).To(Succeed())
 
-		AfterEach(func() {
-			// TODO(user): Cleanup logic after each test, like removing the resource instance.
-			resource := &appsv1alpha1.CustomPodRotator{}
-			err := k8sClient.Get(ctx, typeNamespacedName, resource)
-			Expect(err).NotTo(HaveOccurred())
+			// Create rotator with immediate trigger
+			rotator := &appsv1alpha1.CustomPodRotator{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "test-rotator",
+					Namespace: "default",
+				},
+				Spec: appsv1alpha1.CustomPodRotatorSpec{
+					TargetDeployment: "test-deploy",
+					Schedule:         "* * * * *",
+				},
+			}
+			Expect(k8sClient.Create(ctx, rotator)).To(Succeed())
 
-			By("Cleanup the specific resource instance CustomPodRotator")
-			Expect(k8sClient.Delete(ctx, resource)).To(Succeed())
-		})
-		It("should successfully reconcile the resource", func() {
-			By("Reconciling the created resource")
-			controllerReconciler := &CustomPodRotatorReconciler{
+			// Manually trigger reconciliation
+			reconciler := &CustomPodRotatorReconciler{
 				Client: k8sClient,
 				Scheme: k8sClient.Scheme(),
 			}
 
-			_, err := controllerReconciler.Reconcile(ctx, reconcile.Request{
-				NamespacedName: typeNamespacedName,
+			// Trigger reconciliation manually
+			_, err := reconciler.Reconcile(ctx, ctrl.Request{
+				NamespacedName: types.NamespacedName{
+					Name:      "test-rotator",
+					Namespace: "default",
+				},
 			})
 			Expect(err).NotTo(HaveOccurred())
-			// TODO(user): Add more specific assertions depending on your controller's reconciliation logic.
-			// Example: If you expect a certain status condition after reconciliation, verify it here.
+
+			// Check the result
+			updatedDeployment := &appsv1.Deployment{}
+			Eventually(func() bool {
+				err := k8sClient.Get(ctx, types.NamespacedName{
+					Name:      "test-deploy",
+					Namespace: "default",
+				}, updatedDeployment)
+				if err != nil {
+					return false
+				}
+				return updatedDeployment.Spec.Template.Annotations != nil &&
+					updatedDeployment.Spec.Template.Annotations["custompodrotator.tonihacks.com/restarted-at"] != ""
+			}, 5*time.Second, 100*time.Millisecond).Should(BeTrue())
+
+			// Cleanup
+			Expect(k8sClient.Delete(ctx, deployment)).To(Succeed())
+			Expect(k8sClient.Delete(ctx, rotator)).To(Succeed())
 		})
 	})
 })

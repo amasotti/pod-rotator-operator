@@ -21,6 +21,8 @@ import (
 	"fmt"
 	"path/filepath"
 	"runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -45,6 +47,7 @@ var k8sClient client.Client
 var testEnv *envtest.Environment
 var ctx context.Context
 var cancel context.CancelFunc
+var k8sManager manager.Manager
 
 func TestControllers(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -86,6 +89,28 @@ var _ = BeforeSuite(func() {
 	Expect(err).NotTo(HaveOccurred())
 	Expect(k8sClient).NotTo(BeNil())
 
+	// Create manager
+	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
+		Scheme: scheme.Scheme,
+	})
+	Expect(err).NotTo(HaveOccurred())
+
+	// Set up the controller
+	reconciler := &CustomPodRotatorReconciler{
+		Client: k8sManager.GetClient(),
+		Scheme: k8sManager.GetScheme(),
+	}
+	err = reconciler.SetupWithManager(k8sManager)
+	Expect(err).NotTo(HaveOccurred())
+
+	// Start the manager in a goroutine
+	go func() {
+		err := k8sManager.Start(ctx)
+		Expect(err).NotTo(HaveOccurred())
+	}()
+
+	// Use the manager's client instead
+	k8sClient = k8sManager.GetClient()
 })
 
 var _ = AfterSuite(func() {
