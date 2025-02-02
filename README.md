@@ -46,4 +46,4 @@ see [STEPS.md](docs/STEPS.md)
 
 ## License
 
-[Mozilla Public License 2.0](LICENSE)
+[Apache 2.0](LICENSE)
