@@ -1,6 +1,7 @@
 # Pod Rotator Operator 
 
 [![CI](https://github.com/amasotti/pod-rotator-operator/actions/workflows/ci.yml/badge.svg)](https://github.com/amasotti/pod-rotator-operator/actions/workflows/ci.yml)
+[![Release](https://github.com/amasotti/pod-rotator-operator/actions/workflows/release.yml/badge.svg)](https://github.com/amasotti/pod-rotator-operator/actions/workflows/release.yml)
 
 A Kubernetes operator that automatically rotates pods in deployments on a configurable schedule. 
 Useful for applications that need periodic restarts to prevent memory leaks or maintain optimal performance.
