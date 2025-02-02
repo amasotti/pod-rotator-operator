@@ -20,22 +20,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // CustomPodRotatorSpec defines the desired state of CustomPodRotator
 type CustomPodRotatorSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of CustomPodRotator. Edit custompodrotator_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	TargetDeployment string `json:"targetDeployment"`   // Name of the deployment to rotate
+	Schedule         string `json:"schedule"`           // Cron schedule e.g. "0 3 * * *"
+	TimeZone         string `json:"timeZone,omitempty"` // Timezone e.g. "UTC"
 }
 
 // CustomPodRotatorStatus defines the observed state of CustomPodRotator
 type CustomPodRotatorStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	LastRestartTime metav1.Time `json:"lastRestartTime,omitempty"`
 }
 
 // +kubebuilder:object:root=true
