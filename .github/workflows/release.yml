@@ -48,6 +48,7 @@ jobs:
 
       - name: Save Docker image
         run: |
+          docker pull ${{ steps.prep.outputs.image_tag }}
           docker save ${{ steps.prep.outputs.image_tag }} > image.tar
 
       - name: Upload Docker image artifact
