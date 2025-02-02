@@ -31,3 +31,19 @@ The comand above generator adds the following files:
 - `config/crd/bases/apps.example.com_custompodrotators.yaml` - the CRD manifest
 - `config/samples/apps_v1_custompodrotator.yaml` - the sample CR manifest
 - `config/rbac/role.yaml` - the RBAC role manifest
+
+
+## Important steps in the implementation
+
+1. Implement the reconcile loop in the controller
+
+The central place where you will be spending most of the time is the controller logic. Under `internal/controllers` the 
+operator-sdk has scaffolded a controller file for you. The main function in this file is the `Reconcile` function. 
+
+Reconciliation is a key operation in Kubernetes controllers. It is the process of bringing the current state of the
+cluster closer to the desired state. In the context of the operator, the desired state is defined by the Custom Resource
+Definition (CRD) that you have created.
+
+See [custompodrotator_controller.go (line 49ff)](../internal/controller/custompodrotator_controller.go) for the implemented logic.
+
+

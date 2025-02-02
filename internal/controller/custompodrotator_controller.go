@@ -37,15 +37,16 @@ type CustomPodRotatorReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=apps.tonihacks.com,resources=custompodrotators,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=apps.tonihacks.com,resources=custompodrotators/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=apps.tonihacks.com,resources=custompodrotators/finalizers,verbs=update
-
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.19.0/pkg/reconcile
+//
+// +kubebuilder:rbac:groups=apps.tonihacks.com,resources=custompodrotators,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apps.tonihacks.com,resources=custompodrotators/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=apps.tonihacks.com,resources=custompodrotators/finalizers,verbs=get,update
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;update
 func (r *CustomPodRotatorReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger := log.FromContext(ctx)
 
