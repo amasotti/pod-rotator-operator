@@ -19,6 +19,8 @@ The docker images can be found at [Docker Hub](https://hub.docker.com/r/katom92/
 
 - *(legal)* Make licensing consistent ([4cf9c23](https://github.com/amasotti/pod-rotator-operator/commit/4cf9c23b6b091b7665be91300cce4d1833e90ec9))
 
+- Refine pipelines ([9281e72](https://github.com/amasotti/pod-rotator-operator/commit/9281e72c7f3b2a22f6aa5dc37cfecabb27878d03))
+
 ## [0.0.1] - 2025-02-02
 
 [Compare with last version](https://github.com/amasotti/pod-rotator-operator/compare/73b2f627f0c851f41437e41e70e1937fbe9de770..f00c7c7cbda7438e7177a405f2f5ad0a46056e51)
