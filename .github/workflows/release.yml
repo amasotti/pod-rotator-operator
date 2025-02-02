@@ -21,13 +21,13 @@ jobs:
       - name: Prepare variables
         id: prep
         run: |
-          echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/pod-rotator-operator:${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          echo "image_tag=katom92/pod-rotator-operator:${{ github.ref_name }}" >> $GITHUB_OUTPUT
           echo "tag will be : ${{ steps.prep.outputs.image_tag }}"
 
       - name: Docker Login
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: katom92
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Setup Go
