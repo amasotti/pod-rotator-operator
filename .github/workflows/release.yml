@@ -21,7 +21,8 @@ jobs:
       - name: Prepare variables
         id: prep
         run: |
-          echo "image_tag=katom92/pod-rotator-operator:${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/pod-rotator-operator:${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          echo "tag will be : ${{ steps.prep.outputs.image_tag }}"
 
       - name: Docker Login
         uses: docker/login-action@v3
@@ -34,6 +35,12 @@ jobs:
         with:
           go-version: 1.23
           cache: true
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push Docker image
         run: |
