@@ -1,0 +1,9 @@
+apiVersion: apps.tonihacks.com/v1alpha1
+kind: CustomPodRotator
+metadata:
+  labels:
+    app.kubernetes.io/name: pro
+    app.kubernetes.io/managed-by: kustomize
+  name: custompodrotator-sample
+spec:
+  # TODO(user): Add fields here

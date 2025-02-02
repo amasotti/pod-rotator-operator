@@ -1,0 +1,23 @@
+# permissions for end users to view custompodrotators.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: pro
+    app.kubernetes.io/managed-by: kustomize
+  name: custompodrotator-viewer-role
+rules:
+- apiGroups:
+  - apps.tonihacks.com
+  resources:
+  - custompodrotators
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps.tonihacks.com
+  resources:
+  - custompodrotators/status
+  verbs:
+  - get
