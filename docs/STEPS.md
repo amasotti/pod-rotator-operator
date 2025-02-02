@@ -64,3 +64,7 @@ Build the operator image and push it to a container registry:
 make docker-build docker-push IMG=<registry>/<your-image-name>:<tag>
 ```
 
+## A couple of words on some standard make recipes
+
+- `make install/uninstall`: These handle the CRD installation/removal in your cluster. They only manage the Custom Resource Definitions.
+- `make deploy/undeploy`: These handle the full operator deployment, including the CRDs, RBAC rules, and the controller deployment itself.
