@@ -47,3 +47,20 @@ Definition (CRD) that you have created.
 See [custompodrotator_controller.go (line 49ff)](../internal/controller/custompodrotator_controller.go) for the implemented logic.
 
 
+2. Run the tests
+
+The operator-sdk has scaffolded a test suite for you. 
+Implement your own tests and run them using the following command:
+
+```sh
+make test
+```
+
+3. Build and push
+
+Build the operator image and push it to a container registry:
+
+```sh
+make docker-build docker-push IMG=<registry>/<your-image-name>:<tag>
+```
+
